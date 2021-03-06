@@ -287,7 +287,7 @@ keras.backend.clear_session()
 
 
 # ### PART 1: Fully connected layers
-#--------------------------Impelment your code here:-------------------------------------
+#--------------------------Impelment your12 code here:-------------------------------------
 model_relu= Sequential()
 
 model_relu.add(Flatten(input_shape = (32,32,1)))
@@ -472,7 +472,7 @@ print('test loss, test acc:', results)
 
 # In[ ]:
 #--------------------------Impelment your code here:-------------------------------------
-def get_net(input_shape,drop,dropRate,reg):
+def get_net(input_shape,drop,dropRate,reg, filters):
     model = Sequential()
     model.add(Permute((1, 2, 3), input_shape=input_shape))
     model.add(Conv2D(filters=filters[0], kernel_size=(3, 3), padding='same', activation='relu', name='Conv2D_1',
@@ -524,7 +524,7 @@ dropRate = 0.3
 reg = 1e-2
 filters = [32, 64, 64, 128, 128]
 
-NNet=get_net(input_shape,drop,dropRate,reg)
+NNet=get_net(input_shape,drop,dropRate,reg,filters)
 
 from tensorflow.keras.optimizers import *
 import os
@@ -537,8 +537,8 @@ AdamOpt = Adam(lr=learn_rate,decay=decay)
 NNet.compile(optimizer=AdamOpt, metrics=['acc'], loss='categorical_crossentropy')
 
 #Saving checkpoints during training:
-Checkpath = os.getcwd()
-Checkp = ModelCheckpoint(Checkpath, monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=True, save_freq=1)
+# Checkpath = os.getcwd()
+# Checkp = ModelCheckpoint(Checkpath, monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=True, save_freq=1)
 #Preforming the training by using fit
 # IMPORTANT NOTE: This will take a few minutes!
 h = NNet.fit(x=BaseX_train, y=BaseY_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_split=0, validation_data = (BaseX_val, BaseY_val), shuffle=True)
